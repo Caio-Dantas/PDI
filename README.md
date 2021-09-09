@@ -34,3 +34,7 @@ object ENV {
 }
 ```
 Todas as informações necessárias são obtidas ao registrar o seu app a utilizar a autenticação do github, é possível registrar um app através desse [link](https://github.com/settings/applications/new)
+
+## Executando
+
+Para executar o programa é necessário ter instalado o [Android Studio](https://developer.android.com/studio/install), com isso abra o projeto clonado na IDE, faça o build e o run do projeto em um emulador ou em um dispositivo físico. [Tutorial](https://developer.android.com/training/basics/firstapp/running-app) para executar um projeto no Android Studio. Para que o app seja executado é necessário realizar a etapa de configuração.
