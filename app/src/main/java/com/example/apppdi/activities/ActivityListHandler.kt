@@ -42,7 +42,6 @@ class ActivityListHandler : AppCompatActivity() {
     private fun setupRepo(fragmentRepo : Fragment){
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.frgHandler, fragmentRepo)
-            addToBackStack(null)
             commit()
         }
     }
