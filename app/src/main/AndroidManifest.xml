@@ -29,6 +29,7 @@
                     android:scheme="apppdi"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ActivityListHandler"/>
     </application>
 
 </manifest>

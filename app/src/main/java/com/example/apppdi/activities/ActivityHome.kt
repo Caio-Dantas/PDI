@@ -1,5 +1,6 @@
 package com.example.apppdi.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -51,7 +52,11 @@ class ActivityHome : AppCompatActivity() {
     private fun validateWithGithub(code : String){
         githubViewModel.requestAccessToken(code).observe(this, Observer { accessToken ->
             Log.i("TOKEN", accessToken.toString())
-            if(!accessToken.access_token.isNullOrBlank()) Toast.makeText(this, accessToken.access_token, Toast.LENGTH_SHORT).show()
+            if(!accessToken.access_token.isNullOrBlank()) {
+                Toast.makeText(this, accessToken.access_token, Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, ActivityListHandler::class.java)
+                startActivity(intent)
+            }
         })
     }
 }
