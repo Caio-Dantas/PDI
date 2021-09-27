@@ -21,6 +21,7 @@ class ActivityHome : AppCompatActivity() {
         provider.get(GithubViewModel::class.java)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -36,11 +37,14 @@ class ActivityHome : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        Log.i("LIST_HANDLER", "Receiving resume with data ${intent.data}")
+
         val data = intent.data
         if(data != null && data.toString().startsWith(ENV.CALLBACK_URI)){
             val code = data.getQueryParameter("code").toString()
             validateWithGithub(code)
         }
+        intent.data = null
     }
 
     private fun loginWithGithub(){
@@ -54,9 +58,14 @@ class ActivityHome : AppCompatActivity() {
             Log.i("TOKEN", accessToken.toString())
             if(!accessToken.access_token.isNullOrBlank()) {
                 Toast.makeText(this, accessToken.access_token, Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, ActivityListHandler::class.java)
-                startActivity(intent)
+                startNextActivity()
             }
         })
+    }
+
+    private fun startNextActivity(){
+        Log.i("LIST_HANDLER", "creating activity")
+        val intent = Intent(this, ActivityListHandler::class.java)
+        startActivity(intent)
     }
 }
