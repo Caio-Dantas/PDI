@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -36,9 +35,6 @@ class ActivityHome : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        Log.i("LIST_HANDLER", "Receiving resume with data ${intent.data}")
-
         val data = intent.data
         if(data != null && data.toString().startsWith(ENV.CALLBACK_URI)){
             val code = data.getQueryParameter("code").toString()
@@ -57,14 +53,12 @@ class ActivityHome : AppCompatActivity() {
         githubViewModel.requestAccessToken(code).observe(this, Observer { accessToken ->
             Log.i("TOKEN", accessToken.toString())
             if(!accessToken.access_token.isNullOrBlank()) {
-                Toast.makeText(this, accessToken.access_token, Toast.LENGTH_SHORT).show()
                 startNextActivity()
             }
         })
     }
 
     private fun startNextActivity(){
-        Log.i("LIST_HANDLER", "creating activity")
         val intent = Intent(this, ActivityListHandler::class.java)
         startActivity(intent)
     }

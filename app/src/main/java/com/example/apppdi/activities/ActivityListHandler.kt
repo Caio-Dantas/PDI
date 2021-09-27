@@ -1,12 +1,10 @@
 package com.example.apppdi.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.apppdi.R
 import com.example.apppdi.fragments.FragmentPrivateRepos
 import com.example.apppdi.fragments.FragmentPublicRepos
@@ -16,8 +14,6 @@ class ActivityListHandler : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_handler)
-
-        Log.i("LIST_HANDLER", "ACTIVITY_CREATED")
 
         val statusBarPublic = findViewById<View>(R.id.vwPublic)
         val statusBarPrivate = findViewById<View>(R.id.vwPrivate)
@@ -42,22 +38,6 @@ class ActivityListHandler : AppCompatActivity() {
             statusBarPrivate.visibility = View.VISIBLE
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("LIST_HANDLER", "Destroying")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("LIST_HANDLER", "Stoping")
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Log.i("LIST_HANDLER", "Back pressed")
-    }
-
 
     private fun setupRepo(fragmentRepo : Fragment){
 
