@@ -1,15 +1,13 @@
 package com.example.apppdi.client;
 
-import com.example.apppdi.BuildConfig
 import com.example.apppdi.ENV
 import com.example.apppdi.builder.GithubAuthorizationServiceBuilder
-import com.example.apppdi.model.AccessToken;
-
-import retrofit2.Call;
+import com.example.apppdi.model.AccessToken
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GithubClient {
+class GithubAuthorizationClient {
 
 
     fun getAccessToken(code : String, callback: GithubClientCallback){

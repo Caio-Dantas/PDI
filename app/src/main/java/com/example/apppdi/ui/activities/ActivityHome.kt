@@ -1,4 +1,4 @@
-package com.example.apppdi.activities
+package com.example.apppdi.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
