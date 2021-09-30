@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.apppdi.client.GithubAuthorizationClient
 import com.example.apppdi.model.AccessToken
 
-class GithubViewModel : ViewModel() {
+class GithubAuthorizationViewModel : ViewModel() {
 
     val accessTokenLiveData : MutableLiveData<AccessToken> = MutableLiveData()
 

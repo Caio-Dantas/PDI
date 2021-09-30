@@ -11,13 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.apppdi.ENV
 import com.example.apppdi.R
 import com.example.apppdi.utils.IntentGenerator
-import com.example.apppdi.viewmodel.GithubViewModel
+import com.example.apppdi.viewmodel.GithubAuthorizationViewModel
 
 class ActivityHome : AppCompatActivity() {
 
     private val githubViewModel by lazy {
         val provider = ViewModelProvider(this)
-        provider.get(GithubViewModel::class.java)
+        provider.get(GithubAuthorizationViewModel::class.java)
     }
 
 
@@ -53,13 +53,11 @@ class ActivityHome : AppCompatActivity() {
         githubViewModel.requestAccessToken(code).observe(this, Observer { accessToken ->
             Log.i("TOKEN", accessToken.toString())
             if(!accessToken.access_token.isNullOrBlank()) {
-                startNextActivity()
+                val intent = Intent(this, ActivityListHandler::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                startActivity(intent)
             }
         })
     }
 
-    private fun startNextActivity(){
-        val intent = Intent(this, ActivityListHandler::class.java)
-        startActivity(intent)
-    }
 }

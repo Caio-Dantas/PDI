@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.apppdi.R
+import com.example.apppdi.model.AccessToken
 import com.example.apppdi.ui.fragments.FragmentPrivateRepos
 import com.example.apppdi.ui.fragments.FragmentPublicRepos
 
@@ -15,11 +16,13 @@ class ActivityListHandler : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_handler)
 
+        val accessToken: AccessToken = intent.getSerializableExtra("ACCESS_TOKEN") as AccessToken
+
         val statusBarPublic = findViewById<View>(R.id.vwPublic)
         val statusBarPrivate = findViewById<View>(R.id.vwPrivate)
 
-        val fragmentPublicRepos = FragmentPublicRepos()
-        val fragmentPrivateRepos = FragmentPrivateRepos()
+        val fragmentPublicRepos = FragmentPublicRepos(accessToken)
+        val fragmentPrivateRepos = FragmentPrivateRepos(accessToken)
 
         setupRepo(fragmentPublicRepos)
 

@@ -25,11 +25,12 @@ interface GithubRepoRequest {
     //    @FormUrlEncoded()
 
     @Headers("Accept: application/vnd.github.v3+json")
-    @GET("/user/repos")
+    @GET("user/repos")
     fun getRepos(
         @Query("visibility")visibility : String,
+        @Header("Authorization")authorization: String,
         @Query("affiliation")affiliation : String = "owner",
         @Query("accept")accept : String = "application/vnd.github.v3+json"
-    ) : Call<Repo>
+    ) : Call<List<Repo>>
 
 }
