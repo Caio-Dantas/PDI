@@ -12,7 +12,7 @@ class GithubRepoClient {
 
     fun getRepoList(visibility : String, accessToken: AccessToken, callback: GithubApiCallback){
 
-        val githubApiReposService = GithubApiReposServiceBuilder.buildRepoService()
+        val githubApiReposService = GithubApiReposServiceBuilder.retrofit
 
         val repoCall = githubApiReposService.getRepos(
             visibility,

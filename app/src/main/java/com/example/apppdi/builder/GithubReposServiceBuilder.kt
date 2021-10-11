@@ -9,15 +9,11 @@ import retrofit2.http.*
 
 object GithubApiReposServiceBuilder {
 
-    private val retrofit = Retrofit.Builder()
+    val retrofit = Retrofit.Builder()
         .baseUrl("https://api.github.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-
-    fun buildRepoService(): GithubRepoRequest {
-        return retrofit.create(GithubRepoRequest::class.java)
-    }
+        .create(GithubRepoRequest::class.java)
 
 }
 

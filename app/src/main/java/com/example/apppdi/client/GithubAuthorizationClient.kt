@@ -12,7 +12,7 @@ class GithubAuthorizationClient {
 
     fun getAccessToken(code : String, callback: GithubClientCallback){
 
-        val githubAccessTokenService = GithubAuthorizationServiceBuilder.buildAccessTokenService()
+        val githubAccessTokenService = GithubAuthorizationServiceBuilder.retrofit
 
         val accessTokenCall : Call<AccessToken> = githubAccessTokenService.validateSession(
             ENV.CLIENT_ID,
