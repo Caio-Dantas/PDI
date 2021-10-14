@@ -11,7 +11,7 @@ import retrofit2.http.POST
 
 object GithubAuthorizationServiceBuilder {
 
-    val retrofit = Retrofit.Builder()
+    val retrofit: GithubAccessTokenRequest = Retrofit.Builder()
         .baseUrl("https://github.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -19,7 +19,6 @@ object GithubAuthorizationServiceBuilder {
 }
 
 interface GithubAccessTokenRequest {
-
     @Headers("Accept: application/json")
     @POST("login/oauth/access_token")
     @FormUrlEncoded()
@@ -28,5 +27,4 @@ interface GithubAccessTokenRequest {
         @Field("client_secret")clientSecret : String,
         @Field("code")code : String,
     ) : Call<AccessToken>
-
 }

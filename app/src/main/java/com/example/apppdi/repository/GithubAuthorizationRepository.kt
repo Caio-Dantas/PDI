@@ -1,4 +1,4 @@
-package com.example.apppdi.viewmodel
+package com.example.apppdi.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.example.apppdi.client.GithubAuthorizationClient
 import com.example.apppdi.model.AccessToken
 
-class GithubAuthorizationViewModel : ViewModel() {
+object GithubAuthorizationRepository : ViewModel() {
 
     val accessTokenLiveData : MutableLiveData<AccessToken> = MutableLiveData()
 
-    fun requestAccessToken(code : String) : LiveData<AccessToken>{
+    fun getAccessToken(code: String): LiveData<AccessToken> {
         val githubClient = GithubAuthorizationClient()
         githubClient.getAccessToken(code, object : GithubAuthorizationClient.GithubClientCallback{
             override fun success(accessToken: AccessToken) {
@@ -23,7 +23,4 @@ class GithubAuthorizationViewModel : ViewModel() {
         })
         return accessTokenLiveData
     }
-
-
-
 }

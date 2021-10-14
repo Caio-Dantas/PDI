@@ -1,6 +1,7 @@
 package com.example.apppdi.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -16,13 +17,11 @@ class ActivityListHandler : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_handler)
 
-        val accessToken: AccessToken = intent.getSerializableExtra("ACCESS_TOKEN") as AccessToken
-
         val statusBarPublic = findViewById<View>(R.id.vwPublic)
         val statusBarPrivate = findViewById<View>(R.id.vwPrivate)
 
-        val fragmentPublicRepos = FragmentPublicRepos(accessToken)
-        val fragmentPrivateRepos = FragmentPrivateRepos(accessToken)
+        val fragmentPublicRepos = FragmentPublicRepos()
+        val fragmentPrivateRepos = FragmentPrivateRepos()
 
         setupRepo(fragmentPublicRepos)
 

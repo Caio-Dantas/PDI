@@ -29,7 +29,6 @@ class GithubAuthorizationClient {
                 callback.success(accessToken)
             }
         })
-
     }
 
 

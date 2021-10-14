@@ -9,17 +9,14 @@ import retrofit2.http.*
 
 object GithubApiReposServiceBuilder {
 
-    val retrofit = Retrofit.Builder()
+    val retrofit: GithubRepoRequest = Retrofit.Builder()
         .baseUrl("https://api.github.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(GithubRepoRequest::class.java)
-
 }
 
 interface GithubRepoRequest {
-    //    @FormUrlEncoded()
-
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("user/repos")
     fun getRepos(
@@ -28,5 +25,4 @@ interface GithubRepoRequest {
         @Query("affiliation")affiliation : String = "owner",
         @Query("accept")accept : String = "application/vnd.github.v3+json"
     ) : Call<List<Repo>>
-
 }

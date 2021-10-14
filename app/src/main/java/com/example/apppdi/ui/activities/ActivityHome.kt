@@ -3,20 +3,22 @@ package com.example.apppdi.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.apppdi.ENV
 import com.example.apppdi.R
+import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.utils.IntentGenerator
-import com.example.apppdi.viewmodel.GithubAuthorizationViewModel
+import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
+import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
 
 class ActivityHome : AppCompatActivity() {
 
-    private val githubViewModel by lazy {
-        val provider = ViewModelProvider(this)
+    private val githubAuthViewModel by lazy {
+        val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
+        val provider = ViewModelProvider(this, factory)
         provider.get(GithubAuthorizationViewModel::class.java)
     }
 
@@ -25,11 +27,10 @@ class ActivityHome : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-
         val btnLogin = findViewById<Button>(R.id.btnLogin)
-        btnLogin.setOnClickListener(View.OnClickListener {
+        btnLogin.setOnClickListener {
             loginWithGithub()
-        })
+        }
 
     }
 
@@ -50,11 +51,10 @@ class ActivityHome : AppCompatActivity() {
     }
 
     private fun validateWithGithub(code : String){
-        githubViewModel.requestAccessToken(code).observe(this, Observer { accessToken ->
-            Log.i("TOKEN", accessToken.toString())
-            if(!accessToken.access_token.isNullOrBlank()) {
+        githubAuthViewModel.requestAccessToken(code).observe(this, Observer { accessToken ->
+            if(accessToken.access_token.isNotBlank()) {
                 val intent = Intent(this, ActivityListHandler::class.java)
-                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 startActivity(intent)
             }
         })
