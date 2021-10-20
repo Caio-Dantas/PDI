@@ -12,9 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.apppdi.R
 import com.example.apppdi.model.AccessToken
 import com.example.apppdi.repository.GithubAuthorizationRepository
+import com.example.apppdi.repository.GithubPrivateRepoRepository
+import com.example.apppdi.repository.GithubPublicRepoRepository
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
+import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
 
 
 /**
@@ -24,17 +27,10 @@ import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFacto
  */
 class FragmentPublicRepos : Fragment() {
 
-    private val VISIBILITY : String = "public"
-
     private val githubReposViewModel by lazy {
-        val provider = ViewModelProvider(this)
-        provider.get(GithubRepoViewModel::class.java)
-    }
-
-    private val githubAuthViewModel by lazy {
-        val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
+        val factory = GithubRepoViewModelFactory(GithubPublicRepoRepository, GithubPrivateRepoRepository)
         val provider = ViewModelProvider(this, factory)
-        provider.get(GithubAuthorizationViewModel::class.java)
+        provider.get(GithubRepoViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -49,11 +45,9 @@ class FragmentPublicRepos : Fragment() {
 
         val listPublic = view.findViewById<ListView>(R.id.listPublic)
 
-        val accessToken = githubAuthViewModel.getAccessToken()
-        if (accessToken != null)
-            githubReposViewModel.getRepoList(VISIBILITY, accessToken).observe(viewLifecycleOwner, { repoList ->
-                val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
-                listPublic.adapter = adapter
+        githubReposViewModel.getPublicRepoList().observe(viewLifecycleOwner, { repoList ->
+            val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
+            listPublic.adapter = adapter
         })
     }
 }
