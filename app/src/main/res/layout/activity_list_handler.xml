@@ -5,77 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnPublic"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFF"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:shadowRadius="0"
-        android:text="Públicos"
-        android:textColor="#000"
-        app:layout_constraintBottom_toTopOf="@+id/vwPublic"
-        app:layout_constraintEnd_toStartOf="@+id/btnPrivate"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
-        app:layout_constraintWidth_percent="0.5" />
 
-    <Button
-        android:id="@+id/btnPrivate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFF"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:shadowRadius="0"
-        android:text="Privados"
-        android:textColor="#000"
-        app:layout_constraintBottom_toTopOf="@+id/vwPrivate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnPublic"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <FrameLayout
-        android:id="@+id/frgHandler"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpgHolderRepo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnPublic"
+        app:layout_constraintBottom_toTopOf="@+id/tblLayoutHandler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
-    <View
-        android:id="@+id/vwPublic"
-        style="@style/Divider"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vwPrivate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
-        app:flow_horizontalBias="0"
-        />
-
-    <View
-        android:id="@+id/vwPrivate"
-        style="@style/Divider"
-        android:visibility="invisible"
-        app:flow_horizontalBias="1"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tblLayoutHandler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toEndOf="@+id/vwPublic"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
-        />
+        app:layout_constraintVertical_bias="1">
 
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:text="Públicos" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privados" />
+
+    </com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

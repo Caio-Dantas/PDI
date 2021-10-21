@@ -7,6 +7,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
 import com.example.apppdi.R
 import com.example.apppdi.model.AccessToken
 import com.example.apppdi.repository.GithubAuthorizationRepository
@@ -18,6 +19,8 @@ import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
 import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
+import com.example.apppdi.utils.RepoTabAdapter
+import com.google.android.material.tabs.TabLayout
 
 class ActivityListHandler : AppCompatActivity() {
 
@@ -43,34 +46,12 @@ class ActivityListHandler : AppCompatActivity() {
             githubReposViewModel.loadRepos(accessToken)
         }
 
-        val statusBarPublic = findViewById<View>(R.id.vwPublic)
-        val statusBarPrivate = findViewById<View>(R.id.vwPrivate)
+        val viewPager = findViewById<ViewPager>(R.id.vpgHolderRepo)
+        val tabLayout = findViewById<TabLayout>(R.id.tblLayoutHandler)
 
-        val fragmentPublicRepos = FragmentPublicRepos()
-        val fragmentPrivateRepos = FragmentPrivateRepos()
-
-        setupRepo(fragmentPublicRepos)
-
-        val btnPublicRepos = findViewById<Button>(R.id.btnPublic)
-        btnPublicRepos.setOnClickListener {
-            setupRepo(fragmentPublicRepos)
-            statusBarPrivate.visibility = View.INVISIBLE
-            statusBarPublic.visibility = View.VISIBLE
-        }
-
-        val btnPrivateRepos = findViewById<Button>(R.id.btnPrivate)
-        btnPrivateRepos.setOnClickListener {
-            setupRepo(fragmentPrivateRepos)
-            statusBarPublic.visibility = View.INVISIBLE
-            statusBarPrivate.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setupRepo(fragmentRepo : Fragment){
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frgHandler, fragmentRepo)
-            commit()
-        }
+        viewPager.adapter = RepoTabAdapter(supportFragmentManager)
+        tabLayout.setupWithViewPager(viewPager)
 
     }
+
 }
