@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.FragmentPublicRepos">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listPublic"
+        tools:listitem="@layout/custom_list_item_repo"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.9"
         android:layout_height="wrap_content"

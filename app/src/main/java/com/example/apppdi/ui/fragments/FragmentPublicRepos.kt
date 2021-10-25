@@ -9,11 +9,14 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.apppdi.R
 import com.example.apppdi.model.AccessToken
 import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.repository.GithubPrivateRepoRepository
 import com.example.apppdi.repository.GithubPublicRepoRepository
+import com.example.apppdi.ui.adapters.CustomAdapter
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
@@ -43,11 +46,18 @@ class FragmentPublicRepos : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listPublic = view.findViewById<ListView>(R.id.listPublic)
+        val listPublic = view.findViewById<RecyclerView>(R.id.listPublic)
 
         githubReposViewModel.publicReposLiveData.observe(viewLifecycleOwner, { repoList ->
             val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
-            listPublic.adapter = adapter
+
+            val customAdapter = CustomAdapter(repoList, activity!!)
+            listPublic.adapter = customAdapter
+
+            val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            listPublic.layoutManager = layoutManager
+
+
         })
     }
 }

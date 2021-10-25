@@ -36,7 +36,7 @@ class ActivityListHandler : AppCompatActivity() {
 
         val accessToken = githubAuthViewModel.getAccessToken()
         githubReposViewModel.loadRepos(accessToken)
-        
+
         val viewPager = findViewById<ViewPager>(R.id.vpgHolderRepo)
         val tabLayout = findViewById<TabLayout>(R.id.tblLayoutHandler)
 
