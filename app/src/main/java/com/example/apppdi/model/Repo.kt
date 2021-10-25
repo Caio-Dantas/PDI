@@ -5,7 +5,8 @@ import java.io.Serializable
 data class Repo(
     val name: String,
     val private: Boolean,
-    val description: String,
+    val description: String? ,
     val languages_url: String,
-    val collaborators_url: String
-) : Serializable{}
+    val full_name: String,
+    var collaborators_images: List<Image>? = emptyList()
+) : Serializable

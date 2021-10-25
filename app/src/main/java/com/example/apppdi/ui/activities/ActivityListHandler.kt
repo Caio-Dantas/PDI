@@ -2,19 +2,13 @@ package com.example.apppdi.ui.activities
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.apppdi.R
-import com.example.apppdi.model.AccessToken
 import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.repository.GithubPrivateRepoRepository
 import com.example.apppdi.repository.GithubPublicRepoRepository
-import com.example.apppdi.ui.fragments.FragmentPrivateRepos
-import com.example.apppdi.ui.fragments.FragmentPublicRepos
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
@@ -41,11 +35,8 @@ class ActivityListHandler : AppCompatActivity() {
         setContentView(R.layout.activity_list_handler)
 
         val accessToken = githubAuthViewModel.getAccessToken()
-
-        if (accessToken != null) {
-            githubReposViewModel.loadRepos(accessToken)
-        }
-
+        githubReposViewModel.loadRepos(accessToken)
+        
         val viewPager = findViewById<ViewPager>(R.id.vpgHolderRepo)
         val tabLayout = findViewById<TabLayout>(R.id.tblLayoutHandler)
 

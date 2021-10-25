@@ -45,7 +45,7 @@ class FragmentPublicRepos : Fragment() {
 
         val listPublic = view.findViewById<ListView>(R.id.listPublic)
 
-        githubReposViewModel.getPublicRepoList().observe(viewLifecycleOwner, { repoList ->
+        githubReposViewModel.publicReposLiveData.observe(viewLifecycleOwner, { repoList ->
             val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
             listPublic.adapter = adapter
         })

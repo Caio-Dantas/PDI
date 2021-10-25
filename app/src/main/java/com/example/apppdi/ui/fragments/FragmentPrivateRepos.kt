@@ -43,7 +43,7 @@ class FragmentPrivateRepos : Fragment() {
 
         val listPrivate = view.findViewById<ListView>(R.id.listPrivate)
 
-        githubReposViewModel.getPrivateRepoList().observe(viewLifecycleOwner, { repoList ->
+        githubReposViewModel.privateReposLiveData.observe(viewLifecycleOwner, { repoList ->
             val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
             listPrivate.adapter = adapter
         })

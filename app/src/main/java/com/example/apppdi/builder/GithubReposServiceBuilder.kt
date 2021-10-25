@@ -1,6 +1,7 @@
 package com.example.apppdi.builder
 
-import com.example.apppdi.model.AccessToken
+import androidx.lifecycle.LiveData
+import com.example.apppdi.model.Image
 import com.example.apppdi.model.Repo
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -25,4 +26,11 @@ interface GithubRepoRequest {
         @Query("affiliation")affiliation : String = "owner",
         @Query("accept")accept : String = "application/vnd.github.v3+json"
     ) : Call<List<Repo>>
+
+    @Headers("Accept: application/vnd.github.v3+json")
+    @GET("/repos/{fullname}/collaborators")
+    fun getImages(
+        @Header("Authorization")authorization: String,
+        @Path("fullname", encoded = true)fullname: String
+    ) : Call<List<Image>>
 }

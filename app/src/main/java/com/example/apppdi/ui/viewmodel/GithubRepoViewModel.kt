@@ -12,17 +12,14 @@ class GithubRepoViewModel (
     private val repositoryPrivate : GithubPrivateRepoRepository,
 ) : ViewModel() {
 
-    fun loadRepos(accessToken: AccessToken) {
-        repositoryPublic.loadRepos(accessToken)
-        repositoryPrivate.loadRepos(accessToken)
-    }
+    val publicReposLiveData : MutableLiveData<List<Repo>> = repositoryPublic.reposLiveData
+    val privateReposLiveData : MutableLiveData<List<Repo>> = repositoryPrivate.reposLiveData
 
-    fun getPublicRepoList(): MutableLiveData<List<Repo>> {
-        return repositoryPublic.reposLiveData
-    }
-
-    fun getPrivateRepoList(): MutableLiveData<List<Repo>>{
-        return repositoryPrivate.reposLiveData
+    fun loadRepos(accessToken: AccessToken?) {
+        if (accessToken != null) {
+            repositoryPublic.loadRepos(accessToken)
+            repositoryPrivate.loadRepos(accessToken)
+        }
     }
 
 }
