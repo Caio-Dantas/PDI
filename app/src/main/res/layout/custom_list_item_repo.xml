@@ -17,12 +17,11 @@
             android:id="@+id/txtName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/txtDesc"
+            android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.8" />
@@ -30,26 +29,24 @@
         <TextView
             android:id="@+id/txtDesc"
             android:layout_width="0dp"
+            android:minHeight="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtLanguage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtName"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintWidth_percent="0.8" />
 
         <TextView
             android:id="@+id/txtLanguage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageList"
+            android:minHeight="0dp"
+            app:layout_constraintVertical_bias="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtDesc"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintWidth_percent="0.8" />
 
         <ImageView
@@ -58,22 +55,25 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/txtName"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintHorizontal_bias="0"
             app:srcCompat="@android:drawable/ic_secure" />
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imageList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtLanguage"
+            app:layout_constraintHorizontal_bias="0.01"
             tools:listitem="@layout/item_image">
 
         </androidx.recyclerview.widget.RecyclerView>
