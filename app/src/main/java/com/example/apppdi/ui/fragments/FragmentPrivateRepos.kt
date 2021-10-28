@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.apppdi.R
 import com.example.apppdi.repository.GithubPrivateRepoRepository
 import com.example.apppdi.repository.GithubPublicRepoRepository
@@ -36,24 +35,20 @@ class FragmentPrivateRepos : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_private_repos, container, false)
+        return inflater.inflate(R.layout.fragment_list_repos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listPrivate = view.findViewById<RecyclerView>(R.id.listPrivate)
+        val listPrivate = view.findViewById<RecyclerView>(R.id.listRepos)
+        val layoutManager = GridLayoutManager(activity, 2)
+        listPrivate.layoutManager = layoutManager
 
         githubReposViewModel.privateReposLiveData.observe(viewLifecycleOwner, { repoList ->
-            val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
-
-            Log.i("LOAD_IMG", "changed")
 
             val customAdapter = CustomAdapter(repoList, activity!!)
             listPrivate.adapter = customAdapter
-
-            val layoutManager = GridLayoutManager(context, 2)
-            listPrivate.layoutManager = layoutManager
 
         })
 

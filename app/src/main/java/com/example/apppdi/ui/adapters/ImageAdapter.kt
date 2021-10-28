@@ -30,17 +30,13 @@ class ImageAdapter(private val images: List<Image>, private val context: Context
         return images.size
     }
 
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindView(currentImage: Image) {
             val imageView = itemView.findViewById<ImageView>(R.id.imgAvatar)
-//            if(currentImage.avatar_url.equals("https://avatars.githubusercontent.com/u/55471180?v=4")) imageView.setBackgroundColor(Color.BLUE)
-//            else imageView.setBackgroundColor(Color.RED)
 
             Picasso.get().load(currentImage.avatar_url).into(object : com.squareup.picasso.Target {
                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    // loaded bitmap is here (bitmap)
                     imageView.setImageBitmap(bitmap)
                 }
 
@@ -49,6 +45,7 @@ class ImageAdapter(private val images: List<Image>, private val context: Context
                 }
 
                 override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                    imageView.setBackgroundColor(Color.BLUE)
                 }
             })
 

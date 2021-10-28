@@ -1,4 +1,4 @@
-package com.example.apppdi.utils
+package com.example.apppdi.ui.activities
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.example.apppdi.ui.fragments.FragmentPrivateRepos
 import com.example.apppdi.ui.fragments.FragmentPublicRepos
 
-class RepoTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class FragmentRepoTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     override fun getCount(): Int {
         return 2
     }

@@ -11,7 +11,8 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_list_handler.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.271286231884058" />
-        <entry key="app/src/main/res/layout/custom_list_item_repo.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/custom_list_item_repo.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_list_repos.xml" value="0.26197916666666665" />
         <entry key="app/src/main/res/layout/fragment_private_repos.xml" value="0.291213768115942" />
         <entry key="app/src/main/res/layout/fragment_public_repos.xml" value="0.291213768115942" />
         <entry key="app/src/main/res/layout/item_image.xml" value="0.30027173913043476" />

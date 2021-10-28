@@ -1,13 +1,9 @@
 package com.example.apppdi.service
 
-import android.util.Log
 import com.example.apppdi.builder.GithubApiReposServiceBuilder
 import com.example.apppdi.client.GithubRepoClient
 import com.example.apppdi.model.AccessToken
-import com.example.apppdi.model.Image
 import com.example.apppdi.model.Repo
-import com.example.apppdi.repository.GithubPrivateRepoRepository
-import com.example.apppdi.repository.GithubPublicRepoRepository
 
 class GithubRepoListService(val accessToken: AccessToken) {
 

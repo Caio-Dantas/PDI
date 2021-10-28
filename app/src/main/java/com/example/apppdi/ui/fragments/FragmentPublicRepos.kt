@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.apppdi.R
@@ -40,23 +41,20 @@ class FragmentPublicRepos : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_public_repos, container, false)
+        return inflater.inflate(R.layout.fragment_list_repos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listPublic = view.findViewById<RecyclerView>(R.id.listPublic)
+        val listPublic = view.findViewById<RecyclerView>(R.id.listRepos)
+        val layoutManager = GridLayoutManager(activity, 2)
+        listPublic.layoutManager = layoutManager
 
         githubReposViewModel.publicReposLiveData.observe(viewLifecycleOwner, { repoList ->
-            val adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, repoList.map { repo -> repo.name })
 
             val customAdapter = CustomAdapter(repoList, activity!!)
             listPublic.adapter = customAdapter
-
-            val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            listPublic.layoutManager = layoutManager
-
 
         })
     }

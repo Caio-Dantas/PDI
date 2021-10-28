@@ -1,7 +1,6 @@
 package com.example.apppdi.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -13,7 +12,6 @@ import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
 import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
-import com.example.apppdi.utils.RepoTabAdapter
 import com.google.android.material.tabs.TabLayout
 
 class ActivityListHandler : AppCompatActivity() {
@@ -40,7 +38,7 @@ class ActivityListHandler : AppCompatActivity() {
         val viewPager = findViewById<ViewPager>(R.id.vpgHolderRepo)
         val tabLayout = findViewById<TabLayout>(R.id.tblLayoutHandler)
 
-        viewPager.adapter = RepoTabAdapter(supportFragmentManager)
+        viewPager.adapter = FragmentRepoTabAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
 
     }
