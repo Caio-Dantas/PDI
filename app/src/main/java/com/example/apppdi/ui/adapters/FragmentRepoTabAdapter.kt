@@ -1,4 +1,4 @@
-package com.example.apppdi.ui.activities
+package com.example.apppdi.ui.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -1,6 +1,7 @@
 package com.example.apppdi.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -8,6 +9,7 @@ import com.example.apppdi.R
 import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.repository.GithubPrivateRepoRepository
 import com.example.apppdi.repository.GithubPublicRepoRepository
+import com.example.apppdi.ui.adapters.FragmentRepoTabAdapter
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
@@ -34,6 +36,8 @@ class ActivityListHandler : AppCompatActivity() {
 
         val accessToken = githubAuthViewModel.getAccessToken()
         githubReposViewModel.loadRepos(accessToken)
+
+        Log.i("DEBUG", accessToken.toString())
 
         val viewPager = findViewById<ViewPager>(R.id.vpgHolderRepo)
         val tabLayout = findViewById<TabLayout>(R.id.tblLayoutHandler)

@@ -1,7 +1,9 @@
 package com.example.apppdi.client;
 
+import android.util.Log
 import com.example.apppdi.model.Image
 import com.example.apppdi.model.Repo
+import com.example.apppdi.model.UrlRepo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +39,19 @@ class GithubRepoClient {
         } )
     }
 
+    fun getRepoReadme(repoCall: Call<UrlRepo>, callback: GithubApiCallbackReadme){
+        repoCall.enqueue(object : Callback<UrlRepo>{
+            override fun onFailure(call: Call<UrlRepo>, t: Throwable) {
+                callback.error()
+            }
+
+            override fun onResponse(call: Call<UrlRepo>, response: Response<UrlRepo>) {
+                val repo = response.body() ?: return
+                callback.success(repo)
+            }
+        } )
+    }
+
 
     interface GithubApiCallback{
         fun success(repoList: List<Repo>)
@@ -45,6 +60,11 @@ class GithubRepoClient {
 
     interface GithubApiCallbackImages{
         fun success(repoList: List<Image>)
+        fun error()
+    }
+
+    interface GithubApiCallbackReadme {
+        fun success(url: UrlRepo)
         fun error()
     }
 
