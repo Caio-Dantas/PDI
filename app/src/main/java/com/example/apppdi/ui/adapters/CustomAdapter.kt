@@ -28,19 +28,6 @@ class CustomAdapter(private val repos: List<Repo>, private val context: Context 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentRepo = repos[position]
         holder.bindView(currentRepo)
-
-        val imagesRecyclerView = holder.itemView.findViewById<RecyclerView>(R.id.imageList)
-
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        val adapter = currentRepo.collaborators_images?.let {
-            layoutManager.initialPrefetchItemCount = it.size
-            ImageAdapter(it, holder.itemView.context)
-        }
-
-        imagesRecyclerView.layoutManager = layoutManager
-        imagesRecyclerView.adapter = adapter
-
     }
 
     override fun getItemCount(): Int {
@@ -58,6 +45,16 @@ class CustomAdapter(private val repos: List<Repo>, private val context: Context 
             val desc = itemView.findViewById<TextView>(R.id.txtDesc)
             val languages = itemView.findViewById<TextView>(R.id.txtLanguage)
             val visibility = itemView.findViewById<ImageView>(R.id.imgVisibility)
+            val imagesRecyclerView = itemView.findViewById<RecyclerView>(R.id.imageList)
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            val adapter = repo.collaborators_images?.let {
+                layoutManager.initialPrefetchItemCount = it.size
+                ImageAdapter(it, itemView.context)
+            }
+
+            imagesRecyclerView.layoutManager = layoutManager
+            imagesRecyclerView.adapter = adapter
 
             name.text = repo.name
             desc.text = repo.description
@@ -67,7 +64,6 @@ class CustomAdapter(private val repos: List<Repo>, private val context: Context 
             val visibilityColor = if (repo.private) Color.BLACK else Color.LTGRAY
             visibility.setImageResource(visibilityRes)
             visibility.setColorFilter(visibilityColor)
-
         }
 
         override fun onClick(v: View) {
