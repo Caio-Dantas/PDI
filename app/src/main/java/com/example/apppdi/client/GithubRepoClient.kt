@@ -1,6 +1,5 @@
 package com.example.apppdi.client;
 
-import android.util.Log
 import com.example.apppdi.model.Image
 import com.example.apppdi.model.Repo
 import com.example.apppdi.model.UrlRepo

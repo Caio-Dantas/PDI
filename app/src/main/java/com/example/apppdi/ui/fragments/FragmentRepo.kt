@@ -1,35 +1,24 @@
 package com.example.apppdi.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.apppdi.R
-import com.example.apppdi.model.AccessToken
-import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.repository.GithubPrivateRepoRepository
 import com.example.apppdi.repository.GithubPublicRepoRepository
 import com.example.apppdi.ui.adapters.CustomAdapter
-import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
-import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
 import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
+import com.example.apppdi.model.Visibility
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentPublicRepos.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FragmentPublicRepos : Fragment() {
+class FragmentRepo(
+    private val visibility: Visibility
+) : Fragment() {
 
     private val githubReposViewModel by lazy {
         val factory = GithubRepoViewModelFactory(GithubPublicRepoRepository, GithubPrivateRepoRepository)
@@ -47,15 +36,16 @@ class FragmentPublicRepos : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listPublic = view.findViewById<RecyclerView>(R.id.listRepos)
+        val listRepos = view.findViewById<RecyclerView>(R.id.listRepos)
         val layoutManager = GridLayoutManager(activity, 2)
-        listPublic.layoutManager = layoutManager
+        listRepos.layoutManager = layoutManager
 
-        githubReposViewModel.publicReposLiveData.observe(viewLifecycleOwner, { repoList ->
+        githubReposViewModel.getLiveData(visibility).observe(viewLifecycleOwner, { repoList ->
 
             val customAdapter = CustomAdapter(repoList, activity!!)
-            listPublic.adapter = customAdapter
+            listRepos.adapter = customAdapter
 
         })
+
     }
 }
