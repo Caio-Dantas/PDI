@@ -4,13 +4,14 @@ import com.example.apppdi.builder.GithubApiReposServiceBuilder
 import com.example.apppdi.client.GithubRepoClient
 import com.example.apppdi.model.AccessToken
 import com.example.apppdi.model.Repo
+import com.example.apppdi.model.Visibility
 
 class GithubRepoListService(val accessToken: AccessToken) {
 
-    fun loadRepos(visibility: String, callback: GithubRepoClient.GithubApiCallback) {
+    fun loadRepos(visibility: Visibility, callback: GithubRepoClient.GithubApiCallback) {
         val githubRepoClient = GithubRepoClient()
         val githubRepoCall = GithubApiReposServiceBuilder.retrofit.getRepos(
-            visibility,
+            visibility.getTextAsParam(),
             accessToken.getAuthToken(),
         )
         githubRepoClient.getRepoList(

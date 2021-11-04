@@ -9,6 +9,7 @@ import com.example.apppdi.R
 import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.repository.GithubPrivateRepoRepository
 import com.example.apppdi.repository.GithubPublicRepoRepository
+import com.example.apppdi.repository.GithubRepoRepository
 import com.example.apppdi.ui.adapters.FragmentRepoTabAdapter
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
@@ -19,7 +20,7 @@ import com.google.android.material.tabs.TabLayout
 class ActivityListHandler : AppCompatActivity() {
 
     private val githubReposViewModel by lazy {
-        val factory = GithubRepoViewModelFactory(GithubPublicRepoRepository, GithubPrivateRepoRepository)
+        val factory = GithubRepoViewModelFactory(GithubRepoRepository)
         val provider = ViewModelProvider(this, factory)
         provider.get(GithubRepoViewModel::class.java)
     }

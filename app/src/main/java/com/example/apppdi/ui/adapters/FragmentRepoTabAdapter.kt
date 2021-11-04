@@ -13,15 +13,15 @@ class FragmentRepoTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEH
 
     override fun getItem(position: Int): Fragment {
         when(position){
-            1 -> (return FragmentRepo(Visibility.PRIVATE))
-            else -> (return FragmentRepo(Visibility.PUBLIC))
+            1 -> (return FragmentRepo.newInstance(Visibility.PRIVATE))
+            else -> (return FragmentRepo.newInstance(Visibility.PRIVATE))
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         when(position){
-            1 -> (return Visibility.PRIVATE.getText())
-            else -> (return Visibility.PUBLIC.getText())
+            1 -> (return Visibility.PRIVATE.getDisplayText())
+            else -> (return Visibility.PUBLIC.getDisplayText())
         }
     }
 

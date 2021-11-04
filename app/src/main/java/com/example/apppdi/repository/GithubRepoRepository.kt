@@ -2,17 +2,14 @@ package com.example.apppdi.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.apppdi.client.GithubRepoClient
-import com.example.apppdi.model.AccessToken
-import com.example.apppdi.model.Image
-import com.example.apppdi.model.Repo
-import com.example.apppdi.model.UrlRepo
+import com.example.apppdi.model.*
 import com.example.apppdi.service.GithubRepoListService
 
 object GithubRepoRepository {
-    val reposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
-    val visibility = "public"
 
-    fun loadRepos(accessToken: AccessToken){
+    val reposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
+
+    fun loadRepos(accessToken: AccessToken, visibility: Visibility, callback: LoadRepoCallback){
         GithubRepoListService(accessToken).loadRepos(
             visibility,
             object : GithubRepoClient.GithubApiCallback {
@@ -23,6 +20,8 @@ object GithubRepoRepository {
                     }
 
                     reposLiveData.value = repoList
+                    callback.success(reposLiveData)
+
                 }
 
                 override fun error() {
@@ -63,4 +62,10 @@ object GithubRepoRepository {
             }
         )
     }
+
+    interface LoadRepoCallback{
+        fun success(repoList: MutableLiveData<List<Repo>>)
+        fun error()
+    }
+
 }

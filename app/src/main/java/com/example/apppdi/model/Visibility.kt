@@ -2,14 +2,23 @@ package com.example.apppdi.model
 
 enum class Visibility {
     PUBLIC {
-        override fun getText(): String {
+        override fun getDisplayText(): String {
             return "Públicos"
         }
+
+        override fun getTextAsParam(): String {
+            return "public"
+        }
     }, PRIVATE {
-        override fun getText(): String {
+        override fun getDisplayText(): String {
             return "Privados"
+        }
+
+        override fun getTextAsParam(): String {
+            return "private"
         }
     };
 
-    abstract fun getText() : String
+    abstract fun getDisplayText() : String
+    abstract fun getTextAsParam() : String
 }

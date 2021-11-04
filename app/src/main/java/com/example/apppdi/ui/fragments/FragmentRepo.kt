@@ -1,9 +1,11 @@
 package com.example.apppdi.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,13 +17,26 @@ import com.example.apppdi.ui.adapters.CustomAdapter
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
 import com.example.apppdi.model.Visibility
+import com.example.apppdi.repository.GithubRepoRepository
 
-class FragmentRepo(
-    private val visibility: Visibility
-) : Fragment() {
+class FragmentRepo : Fragment() {
+
+
+    companion object {
+
+        private const val ARG_VISIBILITY : String = "VISIBILITY"
+
+        fun newInstance(visibility: Visibility): FragmentRepo {
+            val args = Bundle()
+            args.putSerializable(ARG_VISIBILITY, visibility)
+            val fragment = FragmentRepo()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     private val githubReposViewModel by lazy {
-        val factory = GithubRepoViewModelFactory(GithubPublicRepoRepository, GithubPrivateRepoRepository)
+        val factory = GithubRepoViewModelFactory(GithubRepoRepository)
         val provider = ViewModelProvider(this, factory)
         provider.get(GithubRepoViewModel::class.java)
     }
@@ -40,7 +55,8 @@ class FragmentRepo(
         val layoutManager = GridLayoutManager(activity, 2)
         listRepos.layoutManager = layoutManager
 
-        githubReposViewModel.getLiveData(visibility).observe(viewLifecycleOwner, { repoList ->
+        githubReposViewModel.privateReposLiveData.observe(viewLifecycleOwner, { repoList ->
+            Log.i("REFACTOR", "listing $repoList")
 
             val customAdapter = CustomAdapter(repoList, activity!!)
             listRepos.adapter = customAdapter

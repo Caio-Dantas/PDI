@@ -8,6 +8,7 @@ import com.example.apppdi.client.GithubRepoClient
 import com.example.apppdi.model.AccessToken
 import com.example.apppdi.model.Image
 import com.example.apppdi.model.Repo
+import com.example.apppdi.model.Visibility
 import com.example.apppdi.service.GithubRepoListService
 
 object GithubPrivateRepoRepository {
@@ -17,7 +18,7 @@ object GithubPrivateRepoRepository {
 
 
     fun loadRepos(accessToken: AccessToken){
-        GithubRepoListService(accessToken).loadRepos(visibility,
+        GithubRepoListService(accessToken).loadRepos(Visibility.PRIVATE,
             object : GithubRepoClient.GithubApiCallback {
                 override fun success(repoList: List<Repo>) {
                     repoList.forEach {

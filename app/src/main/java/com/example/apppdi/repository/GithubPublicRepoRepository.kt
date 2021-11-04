@@ -1,14 +1,8 @@
 package com.example.apppdi.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.apppdi.builder.GithubApiReposServiceBuilder
 import com.example.apppdi.client.GithubRepoClient
-import com.example.apppdi.model.AccessToken
-import com.example.apppdi.model.Image
-import com.example.apppdi.model.Repo
-import com.example.apppdi.model.UrlRepo
+import com.example.apppdi.model.*
 import com.example.apppdi.service.GithubRepoListService
 
 object GithubPublicRepoRepository {
@@ -17,7 +11,7 @@ object GithubPublicRepoRepository {
 
     fun loadRepos(accessToken: AccessToken){
         GithubRepoListService(accessToken).loadRepos(
-            visibility,
+            Visibility.PUBLIC,
             object : GithubRepoClient.GithubApiCallback {
                 override fun success(repoList: List<Repo>) {
                     repoList.forEach {
