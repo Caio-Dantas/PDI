@@ -14,7 +14,7 @@ class FragmentRepoTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEH
     override fun getItem(position: Int): Fragment {
         when(position){
             1 -> (return FragmentRepo.newInstance(Visibility.PRIVATE))
-            else -> (return FragmentRepo.newInstance(Visibility.PRIVATE))
+            else -> (return FragmentRepo.newInstance(Visibility.PUBLIC))
         }
     }
 

@@ -7,20 +7,24 @@ import com.example.apppdi.service.GithubRepoListService
 
 object GithubRepoRepository {
 
-    val reposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
 
-    fun loadRepos(accessToken: AccessToken, visibility: Visibility, callback: LoadRepoCallback){
+    val publicReposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
+    val privateReposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
+
+    fun loadRepos(accessToken: AccessToken, visibility: Visibility){
         GithubRepoListService(accessToken).loadRepos(
             visibility,
             object : GithubRepoClient.GithubApiCallback {
                 override fun success(repoList: List<Repo>) {
                     repoList.forEach {
-                        loadImages(it, accessToken)
-                        loadReadme(it, accessToken)
+                        loadImages(it, accessToken, visibility)
+                        loadReadme(it, accessToken, visibility)
                     }
 
-                    reposLiveData.value = repoList
-                    callback.success(reposLiveData)
+                    when(visibility){
+                        Visibility.PUBLIC -> publicReposLiveData.value = repoList
+                        Visibility.PRIVATE -> privateReposLiveData.value = repoList
+                    }
 
                 }
 
@@ -31,12 +35,12 @@ object GithubRepoRepository {
         )
     }
 
-    fun loadImages(repo: Repo, accessToken: AccessToken){
+    fun loadImages(repo: Repo, accessToken: AccessToken, visibility: Visibility){
         GithubRepoListService(accessToken).loadImages(repo,
             object : GithubRepoClient.GithubApiCallbackImages {
                 override fun success(repoList: List<Image>) {
                     repo.collaborators_images = repoList
-                    reposLiveData.postValue(reposLiveData.value)
+                    updateLiveData(visibility)
                 }
 
                 override fun error() {
@@ -47,12 +51,12 @@ object GithubRepoRepository {
         )
     }
 
-    fun loadReadme(repo: Repo, accessToken: AccessToken){
+    fun loadReadme(repo: Repo, accessToken: AccessToken, visibility: Visibility){
         GithubRepoListService(accessToken).loadReadme(repo,
             object : GithubRepoClient.GithubApiCallbackReadme {
                 override fun success(urlRepo: UrlRepo) {
                     repo.html_url_readme = urlRepo
-                    reposLiveData.postValue(reposLiveData.value)
+                    updateLiveData(visibility)
                 }
 
                 override fun error() {
@@ -63,9 +67,11 @@ object GithubRepoRepository {
         )
     }
 
-    interface LoadRepoCallback{
-        fun success(repoList: MutableLiveData<List<Repo>>)
-        fun error()
+    private fun updateLiveData(visibility: Visibility){
+        when(visibility){
+            Visibility.PUBLIC -> publicReposLiveData.postValue(publicReposLiveData.value)
+            Visibility.PRIVATE -> privateReposLiveData.postValue(privateReposLiveData.value)
+        }
     }
 
 }

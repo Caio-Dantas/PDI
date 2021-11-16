@@ -12,30 +12,18 @@ class GithubRepoViewModel (
     private val repository : GithubRepoRepository
 ) : ViewModel() {
 
-    private val publicReposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
-    val privateReposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
-
     fun loadRepos(accessToken: AccessToken?) {
         if (accessToken != null) {
-            repository.loadRepos(accessToken, Visibility.PRIVATE, object: GithubRepoRepository.LoadRepoCallback{
-                override fun success(repoList: MutableLiveData<List<Repo>>) {
-                    repoList.observeForever {
-                        privateReposLiveData.postValue(it)
-                    }
-                }
-
-                override fun error() {
-                    TODO("Not yet implemented")
-                }
-
-            })
+            repository.loadRepos(accessToken, Visibility.PRIVATE)
+            repository.loadRepos(accessToken, Visibility.PUBLIC)
         }
     }
 
     fun getLiveData(visibility: Visibility) : MutableLiveData<List<Repo>> {
+        Log.i("REFACTOR", "getting livedata ${visibility.getDisplayText()}")
         return when(visibility) {
-            Visibility.PRIVATE -> privateReposLiveData
-            else -> publicReposLiveData
+            Visibility.PRIVATE -> repository.privateReposLiveData
+            else -> repository.publicReposLiveData
         }
     }
 
