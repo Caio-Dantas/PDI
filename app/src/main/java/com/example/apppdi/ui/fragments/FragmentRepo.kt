@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppdi.R
+import com.example.apppdi.model.Repo
 import com.example.apppdi.ui.adapters.CustomAdapter
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
@@ -50,12 +51,16 @@ class FragmentRepo : Fragment() {
         val listRepos = view.findViewById<RecyclerView>(R.id.listRepos)
         val layoutManager = GridLayoutManager(activity, 2)
         listRepos.layoutManager = layoutManager
+        val dataListAdapter : MutableList<Repo> = mutableListOf()
+        val adapter = CustomAdapter(dataListAdapter, activity!!)
+        listRepos.adapter = adapter
 
         githubReposViewModel
             .getLiveData(arguments?.getSerializable(ARG_VISIBILITY) as Visibility)
             .observe(viewLifecycleOwner, { repoList ->
-                val customAdapter = CustomAdapter(repoList, activity!!)
-                listRepos.adapter = customAdapter
+                dataListAdapter.clear()
+                dataListAdapter.addAll(repoList)
+                adapter.notifyDataSetChanged()
         })
 
     }
