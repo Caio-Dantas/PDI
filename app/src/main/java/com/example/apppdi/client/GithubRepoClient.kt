@@ -63,7 +63,7 @@ class GithubRepoClient {
     }
 
     interface GithubApiCallbackReadme {
-        fun success(url: UrlRepo)
+        fun success(urlRepo: UrlRepo)
         fun error()
     }
 

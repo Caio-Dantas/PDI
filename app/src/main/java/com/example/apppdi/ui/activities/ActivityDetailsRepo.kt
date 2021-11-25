@@ -2,11 +2,10 @@ package com.example.apppdi.ui.activities
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import br.tiagohm.markdownview.MarkdownView
 import com.example.apppdi.R
 import com.example.apppdi.model.Repo
 
@@ -18,14 +17,15 @@ class ActivityDetailsRepo : AppCompatActivity() {
 
         val repo: Repo = intent.getSerializableExtra("repo") as Repo
 
-        val webviewReadme = findViewById<WebView>(R.id.wbvReadme)
+        val mkdReadme = findViewById<MarkdownView>(R.id.mkdReadme)
         val txtFullname = findViewById<TextView>(R.id.txtFullname)
         val txtDescDetail = findViewById<TextView>(R.id.txtDescDetail)
         val txtStars = findViewById<TextView>(R.id.txtStars)
         val txtForks = findViewById<TextView>(R.id.txtForks)
         val image = findViewById<ImageView>(R.id.imgVisibilityDesc)
 
-        webviewReadme.loadUrl(repo.html_url_readme.toString())
+        mkdReadme.loadMarkdownFromUrl(repo.html_url_readme.toString())
+
         txtFullname.text = repo.full_name
         txtDescDetail.text = repo.description
         txtStars.text = repo.watchers_count.toString()
