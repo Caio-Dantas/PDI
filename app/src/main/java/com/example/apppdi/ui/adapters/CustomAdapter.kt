@@ -69,11 +69,9 @@ class CustomAdapter(private val repos: List<Repo>, private val context: Context 
         override fun onClick(v: View) {
             val currentRepo = repos[adapterPosition]
 
-            if(currentRepo.html_url_readme != null){
-                val intent = Intent(v.context, ActivityDetailsRepo::class.java)
-                intent.putExtra("repo", currentRepo)
-                v.context.startActivity(intent)
-            }
+            val intent = Intent(v.context, ActivityDetailsRepo::class.java)
+            intent.putExtra("repo", currentRepo)
+            v.context.startActivity(intent)
 
         }
 

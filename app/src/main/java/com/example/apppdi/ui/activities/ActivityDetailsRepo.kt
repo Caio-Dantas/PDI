@@ -24,12 +24,17 @@ class ActivityDetailsRepo : AppCompatActivity() {
         val txtForks = findViewById<TextView>(R.id.txtForks)
         val image = findViewById<ImageView>(R.id.imgVisibilityDesc)
 
-        mkdReadme.loadMarkdownFromUrl(repo.html_url_readme.toString())
 
         txtFullname.text = repo.full_name
         txtDescDetail.text = repo.description
         txtStars.text = repo.watchers_count.toString()
         txtForks.text = repo.forks_count.toString()
+
+        if (repo.html_url_readme != null){
+            mkdReadme.loadMarkdownFromUrl(repo.html_url_readme.toString())
+        }else{
+            mkdReadme.loadMarkdown("## Esse repo não possui README :(")
+        }
 
         val visibilityRes = if (repo.private) android.R.drawable.ic_secure else android.R.drawable.ic_partial_secure
         val visibilityColor = if (repo.private) Color.BLACK else Color.LTGRAY
