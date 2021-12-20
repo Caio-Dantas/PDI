@@ -14,14 +14,9 @@ import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
 import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
 import com.example.apppdi.ui.viewmodel.factory.GithubRepoViewModelFactory
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.launch
 
 class ActivityListHandler : AppCompatActivity() {
-
-    private val githubReposViewModel by lazy {
-        val factory = GithubRepoViewModelFactory(GithubRepoRepository)
-        val provider = ViewModelProvider(this, factory)
-        provider.get(GithubRepoViewModel::class.java)
-    }
 
     private val githubAuthViewModel by lazy {
         val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
@@ -34,7 +29,7 @@ class ActivityListHandler : AppCompatActivity() {
         setContentView(R.layout.activity_list_handler)
 
         val accessToken = githubAuthViewModel.getAccessToken()
-        githubReposViewModel.loadRepos(accessToken)
+
 
         Log.i("DEBUG", accessToken.toString())
 

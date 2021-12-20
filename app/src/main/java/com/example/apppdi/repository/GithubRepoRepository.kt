@@ -1,77 +1,54 @@
 package com.example.apppdi.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.apppdi.client.GithubRepoClient
+import androidx.lifecycle.Transformations
+import com.example.apppdi.builder.GithubApiReposServiceBuilder
 import com.example.apppdi.model.*
-import com.example.apppdi.service.GithubRepoListService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
-object GithubRepoRepository {
+object GithubRepoRepository{
 
+    private val service = GithubApiReposServiceBuilder.retrofit
 
-    val publicReposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
-    val privateReposLiveData : MutableLiveData<List<Repo>> = MutableLiveData()
+    fun loadRepos(accessToken: AccessToken, visibility: Visibility) : LiveData<List<Repo>> {
+        val liveData = MutableLiveData<List<Repo>>()
 
-    fun loadRepos(accessToken: AccessToken, visibility: Visibility){
-        GithubRepoListService(accessToken).loadRepos(
-            visibility,
-            object : GithubRepoClient.GithubApiCallback {
-                override fun success(repoList: List<Repo>) {
-                    repoList.forEach {
-                        loadImages(it, accessToken, visibility)
-                        loadReadme(it, accessToken, visibility)
-                    }
+        CoroutineScope(IO).launch {
+            val repos = service.getRepos(visibility = visibility.getTextAsParam(),
+                authorization = accessToken.getAuthToken(),
+            ).body()
 
-                    when(visibility){
-                        Visibility.PUBLIC -> publicReposLiveData.value = repoList
-                        Visibility.PRIVATE -> privateReposLiveData.value = repoList
-                    }
-
-                }
-
-                override fun error() {
-                    TODO("Not yet implemented")
-                }
+            repos?.map {
+                loadImages(it, accessToken)
+                loadReadme(it, accessToken)
             }
-        )
-    }
-
-    fun loadImages(repo: Repo, accessToken: AccessToken, visibility: Visibility){
-        GithubRepoListService(accessToken).loadImages(repo,
-            object : GithubRepoClient.GithubApiCallbackImages {
-                override fun success(repoList: List<Image>) {
-                    repo.collaborators_images = repoList
-                    updateLiveData(visibility)
-                }
-
-                override fun error() {
-                    TODO("Not yet implemented")
-                }
-
-            }
-        )
-    }
-
-    fun loadReadme(repo: Repo, accessToken: AccessToken, visibility: Visibility){
-        GithubRepoListService(accessToken).loadReadme(repo,
-            object : GithubRepoClient.GithubApiCallbackReadme {
-                override fun success(urlRepo: UrlRepo) {
-                    repo.html_url_readme = urlRepo
-                    updateLiveData(visibility)
-                }
-
-                override fun error() {
-                    TODO("Not yet implemented")
-                }
-
-            }
-        )
-    }
-
-    private fun updateLiveData(visibility: Visibility){
-        when(visibility){
-            Visibility.PUBLIC -> publicReposLiveData.postValue(publicReposLiveData.value)
-            Visibility.PRIVATE -> privateReposLiveData.postValue(privateReposLiveData.value)
+            liveData.postValue(repos)
         }
+        return liveData
+
     }
+
+    fun loadImages(repo: Repo, accessToken: AccessToken) : Repo{
+        CoroutineScope(IO).launch {
+            val res = service.getImages(accessToken.getAuthToken(), repo.full_name).body()
+            if (res != null) {
+                repo.collaborators_images = res
+            }
+        }
+        return repo
+    }
+
+    fun loadReadme(repo: Repo, accessToken: AccessToken) : Repo{
+        CoroutineScope(IO).launch {
+            val res = service.getReadme(accessToken.getAuthToken(), repo.full_name).body()
+            repo.html_url_readme = res
+        }
+        return repo
+    }
+
 
 }

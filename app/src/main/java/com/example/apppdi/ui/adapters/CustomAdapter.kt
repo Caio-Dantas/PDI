@@ -56,6 +56,7 @@ class CustomAdapter(private val repos: List<Repo>, private val context: Context 
             imagesRecyclerView.layoutManager = layoutManager
             imagesRecyclerView.adapter = adapter
 
+
             name.text = repo.name
             desc.text = repo.description
             languages.text = repo.language

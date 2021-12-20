@@ -10,6 +10,6 @@ data class Repo(
     val full_name: String,
     val forks_count: Int,
     val watchers_count: Int,
-    var collaborators_images: List<Image>? = emptyList(),
+    var collaborators_images: List<Image>,
     var html_url_readme: UrlRepo? = null
 ) : Serializable
