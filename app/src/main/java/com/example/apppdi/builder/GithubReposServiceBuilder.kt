@@ -1,10 +1,8 @@
 package com.example.apppdi.builder
 
-import androidx.lifecycle.LiveData
 import com.example.apppdi.model.Image
 import com.example.apppdi.model.Repo
 import com.example.apppdi.model.UrlRepo
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

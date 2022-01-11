@@ -1,6 +1,7 @@
 package com.example.apppdi.ui.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.apppdi.model.AccessToken
@@ -13,15 +14,24 @@ class GithubRepoViewModel (
     private val accessToken: AccessToken
 ) : ViewModel() {
 
-    private val publicReposLiveData by lazy {
-        repository.loadRepos(accessToken, Visibility.PUBLIC)
+    private val publicReposLiveData = MutableLiveData<List<Repo>>()
+    private val privateReposLiveData = MutableLiveData<List<Repo>>()
+
+    fun updateLiveData(visibility: Visibility, data: List<Repo>?){
+        if(data.isNullOrEmpty()) return
+        when(visibility) {
+            Visibility.PRIVATE -> privateReposLiveData.postValue(data)
+            else -> publicReposLiveData.postValue(data)
+        }
     }
-    private val privateReposLiveData by lazy {
-        repository.loadRepos(accessToken, Visibility.PRIVATE)
+
+    fun loadRepos(){
+        repository.loadRepos(accessToken, Visibility.PUBLIC, this::updateLiveData)
+        repository.loadRepos(accessToken, Visibility.PRIVATE, this::updateLiveData)
     }
 
 
-    fun getLiveData(visibility: Visibility, accessToken: AccessToken) : LiveData<List<Repo>> {
+    fun getLiveData(visibility: Visibility) : LiveData<List<Repo>> {
         return when(visibility) {
             Visibility.PRIVATE -> privateReposLiveData
             else -> publicReposLiveData

@@ -36,6 +36,12 @@ class FragmentRepo : Fragment() {
         }
     }
 
+    private val githubAuthViewModel by lazy {
+        val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
+        val provider = ViewModelProvider(this, factory)
+        provider.get(GithubAuthorizationViewModel::class.java)
+    }
+
     private val githubReposViewModel by lazy {
         val factory = GithubRepoViewModelFactory(GithubRepoRepository,
             githubAuthViewModel.getAccessToken()
@@ -44,11 +50,6 @@ class FragmentRepo : Fragment() {
         provider.get(GithubRepoViewModel::class.java)
     }
 
-    private val githubAuthViewModel by lazy {
-        val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
-        val provider = ViewModelProvider(this, factory)
-        provider.get(GithubAuthorizationViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +61,8 @@ class FragmentRepo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        githubReposViewModel.loadRepos()
+
         val listRepos = view.findViewById<RecyclerView>(R.id.listRepos)
         val layoutManager = GridLayoutManager(activity, 2)
         listRepos.layoutManager = layoutManager
@@ -69,11 +72,13 @@ class FragmentRepo : Fragment() {
         listRepos.adapter = adapter
 
         githubReposViewModel
-            .getLiveData(arguments?.getSerializable(ARG_VISIBILITY) as Visibility, githubAuthViewModel.getAccessToken()!!)
+            .getLiveData(arguments?.getSerializable(ARG_VISIBILITY) as Visibility)
             .observe(viewLifecycleOwner, { repoList ->
-                dataListAdapter.clear()
-                dataListAdapter.addAll(repoList)
-                adapter.notifyDataSetChanged()
+                if(!repoList.isNullOrEmpty()){
+                    dataListAdapter.clear()
+                    dataListAdapter.addAll(repoList)
+                    adapter.notifyDataSetChanged()
+                }
             })
 
     }

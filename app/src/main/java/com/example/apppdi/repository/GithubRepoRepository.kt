@@ -1,11 +1,11 @@
 package com.example.apppdi.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.example.apppdi.builder.GithubApiReposServiceBuilder
-import com.example.apppdi.model.*
+import com.example.apppdi.model.AccessToken
+import com.example.apppdi.model.Repo
+import com.example.apppdi.model.Visibility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ object GithubRepoRepository{
 
     private val service = GithubApiReposServiceBuilder.retrofit
 
-    fun loadRepos(accessToken: AccessToken, visibility: Visibility) : LiveData<List<Repo>> {
+    fun loadRepos(accessToken: AccessToken, visibility: Visibility, updater: (visibility: Visibility, data: List<Repo>?) -> Unit) : LiveData<List<Repo>> {
         val liveData = MutableLiveData<List<Repo>>()
 
         CoroutineScope(IO).launch {
@@ -26,7 +26,7 @@ object GithubRepoRepository{
                 loadImages(it, accessToken)
                 loadReadme(it, accessToken)
             }
-            liveData.postValue(repos)
+            updater(visibility, repos)
         }
         return liveData
 
