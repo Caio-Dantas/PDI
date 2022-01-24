@@ -77,9 +77,15 @@ class FragmentRepo : Fragment() {
                 if(!repoList.isNullOrEmpty()){
                     dataListAdapter.clear()
                     dataListAdapter.addAll(repoList)
-                    adapter.notifyDataSetChanged()
+                    adapter.notifyItemRangeChanged(0, repoList.size)
+
+                    githubReposViewModel.getModifiedRepo().observe(viewLifecycleOwner, { modifiedRepo ->
+                        adapter.notifyImageChanged(modifiedRepo)
+                    })
                 }
             })
+
+
 
     }
 }

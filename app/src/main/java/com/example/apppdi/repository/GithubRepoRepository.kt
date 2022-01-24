@@ -14,7 +14,10 @@ object GithubRepoRepository{
 
     private val service = GithubApiReposServiceBuilder.retrofit
 
-    fun loadRepos(accessToken: AccessToken, visibility: Visibility, updater: (visibility: Visibility, data: List<Repo>?) -> Unit) : LiveData<List<Repo>> {
+    fun loadRepos(
+        accessToken: AccessToken,
+        visibility: Visibility,
+        updater: (visibility: Visibility, data: List<Repo>?) -> Unit ) : LiveData<List<Repo>> {
         val liveData = MutableLiveData<List<Repo>>()
 
         CoroutineScope(IO).launch {
@@ -22,21 +25,18 @@ object GithubRepoRepository{
                 authorization = accessToken.getAuthToken(),
             ).body()
 
-            repos?.map {
-                loadImages(it, accessToken)
-                loadReadme(it, accessToken)
-            }
             updater(visibility, repos)
         }
         return liveData
 
     }
 
-    fun loadImages(repo: Repo, accessToken: AccessToken) : Repo{
+    fun loadImages(repo: Repo, accessToken: AccessToken, repoUpdater: (Repo) -> Unit) : Repo{
         CoroutineScope(IO).launch {
             val res = service.getImages(accessToken.getAuthToken(), repo.full_name).body()
             if (res != null) {
                 repo.collaborators_images = res
+                repoUpdater(repo)
             }
         }
         return repo
