@@ -44,7 +44,7 @@ class FragmentRepo : Fragment() {
 
     private val githubReposViewModel by lazy {
         val factory = GithubRepoViewModelFactory(GithubRepoRepository,
-            githubAuthViewModel.getAccessToken()
+            githubAuthViewModel.getAccessToken().value
         )
         val provider = ViewModelProvider(this, factory)
         provider.get(GithubRepoViewModel::class.java)
@@ -68,7 +68,7 @@ class FragmentRepo : Fragment() {
         listRepos.layoutManager = layoutManager
 
         val dataListAdapter : MutableList<Repo> = mutableListOf()
-        val adapter = CustomAdapter(dataListAdapter, activity!!)
+        val adapter = CustomAdapter(dataListAdapter, requireActivity())
         listRepos.adapter = adapter
 
         githubReposViewModel

@@ -18,20 +18,9 @@ import kotlinx.coroutines.launch
 
 class ActivityListHandler : AppCompatActivity() {
 
-    private val githubAuthViewModel by lazy {
-        val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
-        val provider = ViewModelProvider(this, factory)
-        provider.get(GithubAuthorizationViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_handler)
-
-        val accessToken = githubAuthViewModel.getAccessToken()
-
-
-        Log.i("DEBUG", accessToken.toString())
 
         val viewPager = findViewById<ViewPager>(R.id.vpgHolderRepo)
         val tabLayout = findViewById<TabLayout>(R.id.tblLayoutHandler)

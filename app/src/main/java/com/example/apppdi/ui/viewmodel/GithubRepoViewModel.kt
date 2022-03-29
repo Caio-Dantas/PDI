@@ -31,7 +31,7 @@ class GithubRepoViewModel (
         }
     }
 
-    fun updateModifiedRepo(repo: Repo){
+    private fun updateModifiedRepo(repo: Repo){
         modifiedRepo.postValue(repo)
     }
 
