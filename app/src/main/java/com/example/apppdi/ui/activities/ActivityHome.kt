@@ -2,25 +2,18 @@ package com.example.apppdi.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.apppdi.ENV
 import com.example.apppdi.R
-import com.example.apppdi.repository.GithubAuthorizationRepository
-import com.example.apppdi.utils.IntentGenerator
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
-import com.example.apppdi.ui.viewmodel.factory.GithubAuthorizationViewModelFactory
+import com.example.apppdi.utils.IntentGenerator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ActivityHome : AppCompatActivity() {
 
-    private val githubAuthViewModel by lazy {
-        val factory = GithubAuthorizationViewModelFactory(GithubAuthorizationRepository)
-        val provider = ViewModelProvider(this, factory)
-        provider.get(GithubAuthorizationViewModel::class.java)
-    }
+    private val githubAuthViewModel: GithubAuthorizationViewModel by viewModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
