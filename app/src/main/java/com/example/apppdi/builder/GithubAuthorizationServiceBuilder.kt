@@ -12,11 +12,15 @@ import retrofit2.http.POST
 
 object GithubAuthorizationServiceBuilder {
 
-    val retrofit: GithubAccessTokenRequest = Retrofit.Builder()
+    private val retrofit: GithubAccessTokenRequest = Retrofit.Builder()
         .baseUrl("https://github.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(GithubAccessTokenRequest::class.java)
+
+    fun getService(): GithubAccessTokenRequest {
+        return retrofit
+    }
 }
 
 interface GithubAccessTokenRequest {

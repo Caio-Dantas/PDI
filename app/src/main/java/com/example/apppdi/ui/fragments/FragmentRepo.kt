@@ -32,9 +32,7 @@ class FragmentRepo : Fragment() {
         }
     }
 
-    private val githubAuthViewModel: GithubAuthorizationViewModel by viewModel()
-
-    private val githubReposViewModel: GithubRepoViewModel by viewModel { parametersOf(githubAuthViewModel.getAccessToken().value) }
+    private val githubReposViewModel: GithubRepoViewModel by viewModel()
 
 
     override fun onCreateView(

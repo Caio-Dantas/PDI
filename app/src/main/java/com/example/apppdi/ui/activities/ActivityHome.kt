@@ -45,7 +45,7 @@ class ActivityHome : AppCompatActivity() {
 
     private fun validateWithGithub(code : String){
         githubAuthViewModel.requestAccessToken(code)
-        githubAuthViewModel.getAccessToken().observe(this, Observer { accessToken ->
+        githubAuthViewModel.getAccessTokenLiveData().observe(this, Observer { accessToken ->
             if(accessToken?.access_token?.isNotBlank() != null) {
                 val intent = Intent(this, ActivityListHandler::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP

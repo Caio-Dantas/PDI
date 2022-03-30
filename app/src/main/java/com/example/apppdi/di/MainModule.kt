@@ -1,5 +1,8 @@
 package com.example.apppdi.di
 
+import com.example.apppdi.builder.GithubApiReposServiceBuilder
+import com.example.apppdi.builder.GithubAuthorizationServiceBuilder
+import com.example.apppdi.repository.AccessTokenRepository
 import com.example.apppdi.repository.GithubAuthorizationRepository
 import com.example.apppdi.repository.GithubRepoRepository
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
@@ -9,18 +12,31 @@ import org.koin.dsl.module
 
 val mainModule = module {
 
+    factory {
+        GithubAuthorizationServiceBuilder
+    }
+
+    factory {
+        GithubApiReposServiceBuilder
+    }
+
     single {
-        GithubAuthorizationRepository
+        AccessTokenRepository
+    }
+
+    single {
+        GithubAuthorizationRepository(tokenRepository = get(), serviceBuilder = get())
     }
 
     single{
-        GithubRepoRepository
+        GithubRepoRepository(tokenRepository = get(), serviceBuilder = get())
     }
 
     viewModel{
         GithubAuthorizationViewModel(repository = get())
     }
-    viewModel { params ->
-        GithubRepoViewModel(repository = get(), accessToken = params.get())
+
+    viewModel {
+        GithubRepoViewModel(repository = get())
     }
 }

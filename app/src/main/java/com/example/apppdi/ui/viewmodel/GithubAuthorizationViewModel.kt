@@ -10,12 +10,16 @@ class GithubAuthorizationViewModel(
     private val repository : GithubAuthorizationRepository
 ) : ViewModel() {
 
+    private val accessTokenLiveData: MutableLiveData<AccessToken> = MutableLiveData()
+
     fun requestAccessToken(code: String){
-        repository.requestAccessToken(code)
+        repository.requestAccessToken(code) { accessToken ->
+            accessTokenLiveData.postValue(accessToken)
+        }
     }
 
-    fun getAccessToken(): LiveData<AccessToken> {
-        return repository.getAccessToken()
+    fun getAccessTokenLiveData(): LiveData<AccessToken> {
+        return accessTokenLiveData
     }
 
 }

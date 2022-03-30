@@ -9,8 +9,7 @@ import com.example.apppdi.model.Visibility
 import com.example.apppdi.repository.GithubRepoRepository
 
 class GithubRepoViewModel (
-    private val repository : GithubRepoRepository,
-    private val accessToken: AccessToken
+    private val repository : GithubRepoRepository
 ) : ViewModel() {
 
     private val publicReposLiveData = MutableLiveData<List<Repo>>()
@@ -22,8 +21,8 @@ class GithubRepoViewModel (
 
         if(data.isNullOrEmpty()) return
         data.map {
-            repository.loadReadme(it, accessToken)
-            repository.loadImages(it, accessToken, this::updateModifiedRepo)
+            repository.loadReadme(it)
+            repository.loadImages(it, this::updateModifiedRepo)
         }
         when(visibility) {
             Visibility.PRIVATE -> privateReposLiveData.postValue(data)
@@ -40,8 +39,8 @@ class GithubRepoViewModel (
     }
 
     fun loadRepos(){
-        repository.loadRepos(accessToken, Visibility.PUBLIC, this::updateLiveData)
-        repository.loadRepos(accessToken, Visibility.PRIVATE, this::updateLiveData)
+        repository.loadRepos(Visibility.PUBLIC, this::updateLiveData)
+        repository.loadRepos(Visibility.PRIVATE, this::updateLiveData)
     }
 
 

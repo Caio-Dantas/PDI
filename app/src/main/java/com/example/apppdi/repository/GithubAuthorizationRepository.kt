@@ -1,7 +1,5 @@
 package com.example.apppdi.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.apppdi.ENV
 import com.example.apppdi.builder.GithubAuthorizationServiceBuilder
@@ -10,26 +8,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-object GithubAuthorizationRepository : ViewModel() {
+class GithubAuthorizationRepository(private val tokenRepository: AccessTokenRepository, private val serviceBuilder: GithubAuthorizationServiceBuilder) : ViewModel() {
 
-    private val accessTokenLiveData : MutableLiveData<AccessToken> = MutableLiveData()
-
-    private val service = GithubAuthorizationServiceBuilder.retrofit
-
-
-    fun requestAccessToken(code: String) {
+    fun requestAccessToken(code: String, updater: (accessToken: AccessToken?) -> Unit) {
         CoroutineScope(IO).launch {
-            val accessTokenResponse = service.validateSession(
-                    ENV.CLIENT_ID,
-                    ENV.CLIENT_SECRET,
-                    code
-            ).body()
-            accessTokenLiveData.postValue(accessTokenResponse)
-        }
-    }
+            serviceBuilder.getService().validateSession(
+                ENV.CLIENT_ID,
+                ENV.CLIENT_SECRET,
+                code
+            ).body().let { accessTokenResponse ->
+                if (accessTokenResponse != null) {
+                    tokenRepository.setToken(accessTokenResponse)
+                }
+                updater(accessTokenResponse)
+            }
 
-    fun getAccessToken() : LiveData<AccessToken> {
-        return accessTokenLiveData
+        }
     }
 
 }
