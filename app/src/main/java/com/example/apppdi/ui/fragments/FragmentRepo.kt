@@ -57,18 +57,18 @@ class FragmentRepo : Fragment() {
 
         githubReposViewModel
             .getLiveData(arguments?.getSerializable(ARG_VISIBILITY) as Visibility)
-            .observe(viewLifecycleOwner, { repoList ->
-                if(!repoList.isNullOrEmpty()){
+            .observe(viewLifecycleOwner) { repoList ->
+                if (!repoList.isNullOrEmpty()) {
                     dataListAdapter.clear()
                     dataListAdapter.addAll(repoList)
                     adapter.notifyItemRangeChanged(0, repoList.size)
 
-                    githubReposViewModel.getModifiedRepo().observe(viewLifecycleOwner, { modifiedRepo ->
-                        adapter.notifyImageChanged(modifiedRepo)
-                    })
+                    githubReposViewModel.getModifiedRepo()
+                        .observe(viewLifecycleOwner) { modifiedRepo ->
+                            adapter.notifyImageChanged(modifiedRepo)
+                        }
                 }
-            })
-
+            }
 
 
     }

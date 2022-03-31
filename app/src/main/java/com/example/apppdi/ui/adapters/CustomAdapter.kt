@@ -37,7 +37,7 @@ class CustomAdapter(private val repos: List<Repo>, private val context: Context 
     fun notifyImageChanged(repo: Repo){
         if(!repos.contains(repo)) return
         repos[repos.indexOf(repo)].collaborators_images = repo.collaborators_images
-        notifyItemChanged(repos.indexOf(repo))
+        notifyDataSetChanged()
     }
 
 
