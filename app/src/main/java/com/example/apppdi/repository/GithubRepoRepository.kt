@@ -1,9 +1,6 @@
 package com.example.apppdi.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.apppdi.builder.GithubApiReposServiceBuilder
-import com.example.apppdi.model.AccessToken
 import com.example.apppdi.model.Repo
 import com.example.apppdi.model.Visibility
 import kotlinx.coroutines.CoroutineScope
@@ -18,20 +15,17 @@ class GithubRepoRepository(private val tokenRepository: AccessTokenRepository, p
 
     fun loadRepos(
         visibility: Visibility,
-        updater: (visibility: Visibility, data: List<Repo>?) -> Unit ) : LiveData<List<Repo>> {
-
-        val liveData = MutableLiveData<List<Repo>>()
+        updater: (visibility: Visibility, data: List<Repo>?) -> Unit ) {
 
         CoroutineScope(IO).launch {
             val repos = accessToken?.let {
-                serviceBuilder.getService().getRepos(visibility = visibility.getTextAsParam(),
+                serviceBuilder.getService().getRepos(
+                    visibility = visibility.getTextAsParam(),
                     authorization = it.getAuthToken(),
                 ).body()
             }
-
             updater(visibility, repos)
         }
-        return liveData
 
     }
 
