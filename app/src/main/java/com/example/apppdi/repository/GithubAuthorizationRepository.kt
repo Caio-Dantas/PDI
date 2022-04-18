@@ -1,26 +1,29 @@
 package com.example.apppdi.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.apppdi.client.GithubAuthorizationClient
+import com.example.apppdi.ENV
+import com.example.apppdi.builder.GithubAuthorizationServiceBuilder
 import com.example.apppdi.model.AccessToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
-object GithubAuthorizationRepository : ViewModel() {
+class GithubAuthorizationRepository(private val tokenRepository: AccessTokenRepository, private val serviceBuilder: GithubAuthorizationServiceBuilder) : ViewModel() {
 
-    val accessTokenLiveData : MutableLiveData<AccessToken> = MutableLiveData()
-
-    fun getAccessToken(code: String): LiveData<AccessToken> {
-        val githubClient = GithubAuthorizationClient()
-        githubClient.getAccessToken(code, object : GithubAuthorizationClient.GithubClientCallback{
-            override fun success(accessToken: AccessToken) {
-                accessTokenLiveData.postValue(accessToken)
+    fun requestAccessToken(code: String, updater: (accessToken: AccessToken?) -> Unit) {
+        CoroutineScope(IO).launch {
+            serviceBuilder.getService().validateSession(
+                ENV.CLIENT_ID,
+                ENV.CLIENT_SECRET,
+                code
+            ).body().let { accessTokenResponse ->
+                if (accessTokenResponse != null) {
+                    tokenRepository.setToken(accessTokenResponse)
+                }
+                updater(accessTokenResponse)
             }
-            override fun error() {
-                TODO("Not yet implemented")
-            }
 
-        })
-        return accessTokenLiveData
+        }
     }
+
 }
