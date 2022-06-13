@@ -7,7 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class GithubRepoRepository(private val tokenRepository: AccessTokenRepository, private val serviceBuilder: GithubApiReposServiceBuilder){
+class GithubRepoRepository (
+    private val tokenRepository: AccessTokenRepository,
+    private val serviceBuilder: GithubApiReposServiceBuilder
+    ) {
 
     private val accessToken by lazy {
         tokenRepository.getToken()

@@ -5,16 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppdi.R
 import com.example.apppdi.model.Repo
 import com.example.apppdi.model.Visibility
 import com.example.apppdi.ui.adapters.CustomAdapter
-import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 class FragmentRepo : Fragment() {
 
@@ -32,7 +30,7 @@ class FragmentRepo : Fragment() {
         }
     }
 
-    private val githubReposViewModel: GithubRepoViewModel by viewModel()
+    private val githubReposViewModel: GithubRepoViewModel by viewModels()
 
 
     override fun onCreateView(

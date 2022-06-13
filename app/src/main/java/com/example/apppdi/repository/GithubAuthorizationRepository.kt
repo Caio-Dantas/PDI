@@ -1,29 +1,41 @@
 package com.example.apppdi.repository
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import com.example.apppdi.ENV
 import com.example.apppdi.builder.GithubAuthorizationServiceBuilder
 import com.example.apppdi.model.AccessToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import com.example.apppdi.repository.IGithubAuthorizationRepository.GithubAuthorizationRepositoryParams
+import javax.inject.Inject
 
-class GithubAuthorizationRepository(private val tokenRepository: AccessTokenRepository, private val serviceBuilder: GithubAuthorizationServiceBuilder) : ViewModel() {
+interface IGithubAuthorizationRepository {
+    operator fun invoke(params: GithubAuthorizationRepositoryParams)
+    data class GithubAuthorizationRepositoryParams(val code: String, val updater: (accessToken: AccessToken?) -> Unit)
+}
 
-    fun requestAccessToken(code: String, updater: (accessToken: AccessToken?) -> Unit) {
+
+class GithubAuthorizationRepository @Inject constructor (
+    private val serviceBuilder: GithubAuthorizationServiceBuilder,
+    private val tokenRepository: AccessTokenRepository
+) : IGithubAuthorizationRepository {
+
+    override fun invoke(params: GithubAuthorizationRepositoryParams) {
         CoroutineScope(IO).launch {
             serviceBuilder.getService().validateSession(
                 ENV.CLIENT_ID,
                 ENV.CLIENT_SECRET,
-                code
+                params.code
             ).body().let { accessTokenResponse ->
                 if (accessTokenResponse != null) {
                     tokenRepository.setToken(accessTokenResponse)
                 }
-                updater(accessTokenResponse)
+                params.updater(accessTokenResponse)
             }
 
         }
+        Log.d("CHEGUEI", params.toString())
     }
 
 }

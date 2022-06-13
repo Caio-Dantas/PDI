@@ -2,7 +2,7 @@ package com.example.apppdi.repository
 
 import com.example.apppdi.model.AccessToken
 
-object AccessTokenRepository {
+class AccessTokenRepository {
     private var accessToken: AccessToken? = null
 
     fun setToken(accessToken: AccessToken){

@@ -1,7 +1,6 @@
 package com.example.apppdi.builder
 
 import com.example.apppdi.model.AccessToken
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,7 +9,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-object GithubAuthorizationServiceBuilder {
+class GithubAuthorizationServiceBuilder {
 
     private val retrofit: GithubAccessTokenRequest = Retrofit.Builder()
         .baseUrl("https://github.com")

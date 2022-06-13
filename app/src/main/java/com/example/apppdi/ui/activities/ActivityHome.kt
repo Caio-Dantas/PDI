@@ -3,18 +3,19 @@ package com.example.apppdi.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.apppdi.ENV
 import com.example.apppdi.R
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.utils.IntentGenerator
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ActivityHome : AppCompatActivity() {
 
-    private val githubAuthViewModel: GithubAuthorizationViewModel by viewModel()
-
+    private val githubAuthViewModel: GithubAuthorizationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
