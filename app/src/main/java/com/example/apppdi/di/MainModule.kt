@@ -20,7 +20,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(): GitHubApi = Retrofit.Builder()
-        .baseUrl("https://github.com/")
+        .baseUrl("https://github.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(GitHubApi::class.java)
