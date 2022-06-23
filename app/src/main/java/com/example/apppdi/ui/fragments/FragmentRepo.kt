@@ -43,7 +43,7 @@ class FragmentRepo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        githubReposViewModel.loadRepos()
+        //githubReposViewModel.loadRepos()
 
         val listRepos = view.findViewById<RecyclerView>(R.id.listRepos)
         val layoutManager = GridLayoutManager(activity, 2)

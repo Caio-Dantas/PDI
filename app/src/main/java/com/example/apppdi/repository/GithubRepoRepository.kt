@@ -1,22 +1,8 @@
 package com.example.apppdi.repository
 
-import com.example.apppdi.builder.GithubApiReposServiceBuilder
-import com.example.apppdi.model.Repo
-import com.example.apppdi.model.Visibility
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
+class GithubRepoRepository {
 
-class GithubRepoRepository (
-    private val tokenRepository: AccessTokenRepository,
-    private val serviceBuilder: GithubApiReposServiceBuilder
-    ) {
-
-    private val accessToken by lazy {
-        tokenRepository.getToken()
-    }
-
-    fun loadRepos(
+    /*fun loadRepos(
         visibility: Visibility,
         updater: (visibility: Visibility, data: List<Repo>?) -> Unit ) {
 
@@ -29,7 +15,6 @@ class GithubRepoRepository (
             }
             updater(visibility, repos)
         }
-
     }
 
     fun loadImages(repo: Repo, repoUpdater: (Repo) -> Unit) : Repo{
@@ -49,7 +34,5 @@ class GithubRepoRepository (
             repo.html_url_readme = res
         }
         return repo
-    }
-
-
+    }*/
 }

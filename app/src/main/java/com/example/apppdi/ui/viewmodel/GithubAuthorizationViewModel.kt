@@ -5,23 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.apppdi.model.AccessToken
 import com.example.apppdi.repository.GithubAuthorizationRepository
-import com.example.apppdi.repository.IGithubAuthorizationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.example.apppdi.repository.IGithubAuthorizationRepository.GithubAuthorizationRepositoryParams
-
 
 @HiltViewModel
 class GithubAuthorizationViewModel @Inject constructor (
+    private val repository: GithubAuthorizationRepository
 ) : ViewModel() {
-
-    @Inject
-    lateinit var repository : IGithubAuthorizationRepository
 
     private val accessTokenLiveData: MutableLiveData<AccessToken> = MutableLiveData()
 
     fun requestAccessToken(code: String){
-        repository(GithubAuthorizationRepositoryParams(code) { accessToken ->
+        repository(GithubAuthorizationRepository.Params(code) { accessToken ->
             accessTokenLiveData.postValue(accessToken)
         })
     }
@@ -29,5 +24,4 @@ class GithubAuthorizationViewModel @Inject constructor (
     fun getAccessTokenLiveData(): LiveData<AccessToken> {
         return accessTokenLiveData
     }
-
 }

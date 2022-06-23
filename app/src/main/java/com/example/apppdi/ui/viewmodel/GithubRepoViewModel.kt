@@ -19,10 +19,10 @@ class GithubRepoViewModel (
     private fun updateLiveData(visibility: Visibility, data: List<Repo>?){
 
         if(data.isNullOrEmpty()) return
-        data.map {
+        /*data.map {
             repository.loadReadme(it)
             repository.loadImages(it, this::updateModifiedRepo)
-        }
+        }*/
         when(visibility) {
             Visibility.PRIVATE -> privateReposLiveData.postValue(data)
             else -> publicReposLiveData.postValue(data)
@@ -37,11 +37,10 @@ class GithubRepoViewModel (
         return modifiedRepo
     }
 
-    fun loadRepos(){
+    /*fun loadRepos(){
         repository.loadRepos(Visibility.PUBLIC, this::updateLiveData)
         repository.loadRepos(Visibility.PRIVATE, this::updateLiveData)
-    }
-
+    }*/
 
     fun getLiveData(visibility: Visibility) : LiveData<List<Repo>> {
         return when(visibility) {
@@ -49,5 +48,4 @@ class GithubRepoViewModel (
             else -> publicReposLiveData
         }
     }
-
 }

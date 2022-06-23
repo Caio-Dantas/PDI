@@ -1,37 +1,34 @@
 package com.example.apppdi.di
 
-import com.example.apppdi.builder.GithubAuthorizationServiceBuilder
-import com.example.apppdi.repository.AccessTokenRepository
-import com.example.apppdi.repository.GithubAuthorizationRepository
-import com.example.apppdi.repository.IGithubAuthorizationRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+import com.example.apppdi.network.GitHubApi
+import com.example.apppdi.repository.GithubAuthorizationRepository
+import com.example.apppdi.repository.GithubAuthorizationRepositoryImpl
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class MainModule {
-
-    @Singleton
+object NetworkModule {
     @Provides
-    fun provideAccessTokenRepo() : AccessTokenRepository {
-        return AccessTokenRepository()
-    }
-
     @Singleton
-    @Provides
-    fun provideGithubAuthServiceBuilder() : GithubAuthorizationServiceBuilder {
-        return GithubAuthorizationServiceBuilder()
-    }
-
+    fun provideRetrofit(): GitHubApi = Retrofit.Builder()
+        .baseUrl("https://github.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(GitHubApi::class.java)
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
     @Binds
-    fun bindGithubAuthorizationRepository(repository: GithubAuthorizationRepository) : IGithubAuthorizationRepository
+    fun bindGithubAuthorizationRepository(repository: GithubAuthorizationRepositoryImpl) : GithubAuthorizationRepository
 }

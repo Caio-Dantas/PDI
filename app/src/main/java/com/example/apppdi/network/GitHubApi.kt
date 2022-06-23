@@ -1,27 +1,23 @@
-package com.example.apppdi.builder
+package com.example.apppdi.network
 
-import com.example.apppdi.model.Image
-import com.example.apppdi.model.Repo
-import com.example.apppdi.model.UrlRepo
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import retrofit2.Response
 
-object GithubApiReposServiceBuilder {
+import com.example.apppdi.model.Repo
+import com.example.apppdi.model.Image
+import com.example.apppdi.model.UrlRepo
+import com.example.apppdi.model.AccessToken
 
-    private val retrofit: GithubRepoRequest = Retrofit.Builder()
-        .baseUrl("https://api.github.com")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(GithubRepoRequest::class.java)
+interface GitHubApi {
+    @Headers("Accept: application/json")
+    @POST("login/oauth/access_token")
+    @FormUrlEncoded()
+    suspend fun validateSession(
+        @Field("client_id")clientId : String,
+        @Field("client_secret")clientSecret : String,
+        @Field("code")code : String,
+    ) : Response<AccessToken>
 
-    fun getService(): GithubRepoRequest {
-        return retrofit
-    }
-}
-
-interface GithubRepoRequest {
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("user/repos")
     suspend fun getRepos(
