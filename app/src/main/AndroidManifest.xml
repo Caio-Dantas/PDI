@@ -23,17 +23,13 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="bedhub"
-                    android:host="open.bed72.bedhub" />
-                <data
-                    android:scheme="http"
-                    android:path="/auth"
-                    android:host="www.open.bed72.bedhub" />
-
+                    android:host="callback"
+                    android:scheme="apppdi"/>
             </intent-filter>
 
         </activity>

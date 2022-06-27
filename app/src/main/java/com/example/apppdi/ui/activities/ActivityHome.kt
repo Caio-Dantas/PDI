@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.example.apppdi.ENV
 import com.example.apppdi.R
 import com.example.apppdi.ui.viewmodel.GithubAuthorizationViewModel
 import com.example.apppdi.utils.IntentGenerator
@@ -30,7 +31,7 @@ class ActivityHome : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val data = intent.data
-        if(data != null && data.toString().startsWith("bedhub://open.bed72.bedhub/auth")){
+        if(data != null && data.toString().startsWith(ENV.CALLBACK_URI)){
             val code = data.getQueryParameter("code").toString()
             validateWithGithub(code)
         }
@@ -39,7 +40,7 @@ class ActivityHome : AppCompatActivity() {
 
     private fun loginWithGithub(){
         val intentGenerator = IntentGenerator()
-        val intent = intentGenerator.getAuthorizationIntent("bedhub://open.bed72.bedhub/auth")
+        val intent = intentGenerator.getAuthorizationIntent(ENV.CALLBACK_URI)
         startActivity(intent)
     }
 

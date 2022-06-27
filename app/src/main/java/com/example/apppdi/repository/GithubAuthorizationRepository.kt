@@ -1,6 +1,7 @@
 package com.example.apppdi.repository
 
 import android.util.Log
+import com.example.apppdi.ENV
 import javax.inject.Inject
 
 import kotlinx.coroutines.launch
@@ -26,8 +27,8 @@ class GithubAuthorizationRepositoryImpl @Inject constructor (
     override fun invoke(params: Params) {
         CoroutineScope(IO).launch {
             service.validateSession(
-                "105c3f153cec6b39fdaa",
-                "652e3e106d968022bfdc5b34f0f9aca46e53c990",
+                ENV.CLIENT_ID,
+                ENV.CLIENT_SECRET,
                 params.code
             ).body().let { accessTokenResponse ->
                 if (accessTokenResponse != null) Log.d("CAFÉ", accessTokenResponse.getAuthToken())
