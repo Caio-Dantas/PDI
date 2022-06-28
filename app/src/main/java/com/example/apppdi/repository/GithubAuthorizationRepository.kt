@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.CoroutineScope
 
 import com.example.apppdi.model.AccessToken
-import com.example.apppdi.network.GitHubApi
+import com.example.apppdi.network.GitHubAuthApi
 import com.example.apppdi.repository.GithubAuthorizationRepository.Params
 
 interface GithubAuthorizationRepository {
@@ -22,7 +22,8 @@ interface GithubAuthorizationRepository {
 }
 
 class GithubAuthorizationRepositoryImpl @Inject constructor (
-    private val service: GitHubApi,
+    private val accessTokenRepository: AccessTokenRepository,
+    private val service: GitHubAuthApi,
 ) : GithubAuthorizationRepository {
     override fun invoke(params: Params) {
         CoroutineScope(IO).launch {
@@ -31,8 +32,10 @@ class GithubAuthorizationRepositoryImpl @Inject constructor (
                 ENV.CLIENT_SECRET,
                 params.code
             ).body().let { accessTokenResponse ->
-                if (accessTokenResponse != null) Log.d("CAFÉ", accessTokenResponse.getAuthToken())
-
+                if (accessTokenResponse != null) {
+                    Log.d("CAFÉ", accessTokenResponse.getAuthToken())
+                    accessTokenRepository.setToken(accessTokenResponse)
+                }
                 params.updater(accessTokenResponse)
             }
         }

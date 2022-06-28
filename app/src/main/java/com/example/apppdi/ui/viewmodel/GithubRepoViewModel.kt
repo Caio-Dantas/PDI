@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.example.apppdi.model.Repo
 import com.example.apppdi.model.Visibility
 import com.example.apppdi.repository.GithubRepoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class GithubRepoViewModel (
+@HiltViewModel
+class GithubRepoViewModel @Inject constructor(
     private val repository : GithubRepoRepository
 ) : ViewModel() {
 
@@ -18,15 +21,18 @@ class GithubRepoViewModel (
 
     private fun updateLiveData(visibility: Visibility, data: List<Repo>?){
 
-        if(data.isNullOrEmpty()) return
-        /*data.map {
-            repository.loadReadme(it)
-            repository.loadImages(it, this::updateModifiedRepo)
-        }*/
-        when(visibility) {
-            Visibility.PRIVATE -> privateReposLiveData.postValue(data)
-            else -> publicReposLiveData.postValue(data)
+        data?.let {
+            when(visibility) {
+                Visibility.PRIVATE -> privateReposLiveData.postValue(it)
+                else -> publicReposLiveData.postValue(it)
+            }
+            it.map { repo ->
+                repository.loadReadme(repo)
+                repository.loadImages(repo, this::updateModifiedRepo)
+            }
         }
+
+
     }
 
     private fun updateModifiedRepo(repo: Repo){
@@ -37,10 +43,10 @@ class GithubRepoViewModel (
         return modifiedRepo
     }
 
-    /*fun loadRepos(){
+    fun loadRepos(){
         repository.loadRepos(Visibility.PUBLIC, this::updateLiveData)
         repository.loadRepos(Visibility.PRIVATE, this::updateLiveData)
-    }*/
+    }
 
     fun getLiveData(visibility: Visibility) : LiveData<List<Repo>> {
         return when(visibility) {

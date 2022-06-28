@@ -13,7 +13,9 @@ import com.example.apppdi.model.Repo
 import com.example.apppdi.model.Visibility
 import com.example.apppdi.ui.adapters.CustomAdapter
 import com.example.apppdi.ui.viewmodel.GithubRepoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentRepo : Fragment() {
 
 
@@ -43,7 +45,7 @@ class FragmentRepo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //githubReposViewModel.loadRepos()
+        githubReposViewModel.loadRepos()
 
         val listRepos = view.findViewById<RecyclerView>(R.id.listRepos)
         val layoutManager = GridLayoutManager(activity, 2)

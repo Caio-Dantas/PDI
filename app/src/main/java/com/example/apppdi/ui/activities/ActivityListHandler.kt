@@ -6,7 +6,9 @@ import androidx.viewpager.widget.ViewPager
 import com.example.apppdi.R
 import com.example.apppdi.ui.adapters.FragmentRepoTabAdapter
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ActivityListHandler : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

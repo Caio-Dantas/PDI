@@ -8,7 +8,16 @@ import com.example.apppdi.model.Image
 import com.example.apppdi.model.UrlRepo
 import com.example.apppdi.model.AccessToken
 
-interface GitHubApi {
+interface GitHubAuthApi {
+    @Headers("Accept: application/json")
+    @POST("login/oauth/access_token")
+    @FormUrlEncoded()
+    suspend fun validateSession(
+        @Field("client_id")clientId : String,
+        @Field("client_secret")clientSecret : String,
+        @Field("code")code : String,
+    ) : Response<AccessToken>
+
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("user/repos")
     suspend fun getRepos(

@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import br.tiagohm.markdownview.MarkdownView
 import com.example.apppdi.R
 import com.example.apppdi.model.Repo
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ActivityDetailsRepo : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
